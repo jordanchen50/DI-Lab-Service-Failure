@@ -49,17 +49,23 @@ def lemmatize(rawString):
 
     return ' '.join(lemmatized_sentence)
 
-airbnb_df = pd.read_csv('/Users/jordanchen/Python/airbnb_out.csv', usecols=['Review'])
-uber_df = pd.read_csv('/Users/jordanchen/Python/uber_out.csv', usecols=['Review'])
+# airbnb_df = pd.read_csv('/Users/jordanchen/Python/airbnb_out.csv', usecols=['Review'])
+# uber_df = pd.read_csv('/Users/jordanchen/Python/uber_out.csv', usecols=['Review'])
 
-airbnb_review_list = airbnb_df.values.tolist()
-uber_review_list = uber_df.values.tolist()
+train_df = pd.read_csv('/Users/jordanchen/Python/TRAIN_DATA.csv', usecols=['TRAIN'])
+train_list = train_df.values.tolist()
+# airbnb_review_list = airbnb_df.values.tolist()
+# uber_review_list = uber_df.values.tolist()
 
-cleaned_airbnb_data = []
-cleaned_uber_data = []
 
-for review in airbnb_review_list:
-    cleaned_airbnb_data.append(lemmatize(str(review)))
+# cleaned_airbnb_data = []
+# cleaned_uber_data = []
+
+cleaned_train_data = []
+
+for review in train_list:
+    temp = lemmatize(str(review))
+    cleaned_train_data.append(temp)
 
 # for review in uber_review_list:
 #     cleaned_uber_data.append(lemmatize(str(review)))
@@ -72,6 +78,9 @@ for review in airbnb_review_list:
 # os.makedirs('/Users/jordanchen/Python', exist_ok=True)
 # cleaned_uber_df.to_csv('/Users/jordanchen/Python/cleaned_uber_data_out.csv')
 
+cleaned_train_df = pd.DataFrame(list(zip(cleaned_train_data,)), columns=['Cleaned Train'])
+os.makedirs('/Users/jordanchen/Python', exist_ok=True)
+cleaned_train_df.to_csv('/Users/jordanchen/Python/cleaned_train_data_out.csv')
 # print("--- %s seconds ---" % (time.time() - start_time))
 
 
@@ -79,38 +88,38 @@ for review in airbnb_review_list:
 # bi gram tri gram testing
 # airbnb_review_list 
 # uber_review_list 
-test = ["Hi My Hi My name is Jordan", "this is the 2 test"]
+# test = ["Hi My Hi My name is Jordan", "this is the 2 test"]
 
-from nltk import bigrams, trigrams
-all_bigrams = []
-all_trigrams = []
+# from nltk import bigrams, trigrams
+# all_bigrams = []
+# all_trigrams = []
 
-for element in cleaned_airbnb_data:
-    unigrams = word_tokenize(element)
+# for element in cleaned_airbnb_data:
+#     unigrams = word_tokenize(element)
     
-    temp_bigrams = bigrams(unigrams)
-    temp_bigrams_list = list(temp_bigrams)
+#     temp_bigrams = bigrams(unigrams)
+#     temp_bigrams_list = list(temp_bigrams)
 
-    for words in temp_bigrams_list:
-        temp_word = ' '.join(words)
+#     for words in temp_bigrams_list:
+#         temp_word = ' '.join(words)
         
-        if temp_word not in all_bigrams: 
-            all_bigrams.append(temp_word)
+#         if temp_word not in all_bigrams: 
+#             all_bigrams.append(temp_word)
 
-    temp_trigrams = trigrams(unigrams)
-    temp_trigrams_list = list(temp_trigrams)
+#     temp_trigrams = trigrams(unigrams)
+#     temp_trigrams_list = list(temp_trigrams)
 
-    for words in temp_trigrams_list:
-        temp_word = ' '.join(words)
+#     for words in temp_trigrams_list:
+#         temp_word = ' '.join(words)
 
-        if temp_word not in all_trigrams:
-            all_trigrams.append(temp_word)
+#         if temp_word not in all_trigrams:
+#             all_trigrams.append(temp_word)
 
 
-bigramed_airbnb_df = pd.DataFrame(list(zip(all_bigrams,)),columns=['Bigramed Data'])
-os.makedirs('/Users/jordanchen/Python', exist_ok=True)
-bigramed_airbnb_df.to_csv('/Users/jordanchen/Python/bigramed_airbnb_df_out.csv')
+# bigramed_airbnb_df = pd.DataFrame(list(zip(all_bigrams,)),columns=['Bigramed Data'])
+# os.makedirs('/Users/jordanchen/Python', exist_ok=True)
+# bigramed_airbnb_df.to_csv('/Users/jordanchen/Python/bigramed_airbnb_df_out.csv')
 
-trigramed_uber_df = pd.DataFrame(list(zip(all_trigrams,)),columns=['Trigramed Data'])
-os.makedirs('/Users/jordanchen/Python', exist_ok=True)
-trigramed_uber_df.to_csv('/Users/jordanchen/Python/trigramed_airbnb_df_out.csv')
+# trigramed_uber_df = pd.DataFrame(list(zip(all_trigrams,)),columns=['Trigramed Data'])
+# os.makedirs('/Users/jordanchen/Python', exist_ok=True)
+# trigramed_uber_df.to_csv('/Users/jordanchen/Python/trigramed_airbnb_df_out.csv')
